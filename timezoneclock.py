@@ -34,7 +34,7 @@ alphadisplay.write_display()
 async def settime():
     # Sets Time
     utctime = datetime.utcnow()
-    hour = utctime.hour + offset
+    hour = utctime.hour
     minute = utctime.minute
     second = utctime.second
 
@@ -42,22 +42,25 @@ async def settime():
     ssegdisplay.clear()
 
     ## Sets Displays to current UTC + Offset
-    ssegdisplay.set_digit(0, int(hour / 10))
-    ssegdisplay.set_digit(1, hour % 10)
+    ssegdisplay.set_digit(0, int((hour + offset) / 10))
+    ssegdisplay.set_digit(1, (hour + offset) % 10)
     ssegdisplay.set_digit(2, int(minute / 10))
     ssegdisplay.set_digit(3, minute % 10)
 
     # Colon Blink
     ssegdisplay.set_colon(second % 2)
     
+    # Write to display
+    ssegdisplay.write_display()
+
     # Waits a quarter second
     await asyncio.sleep(0.25)
 
 async def buttons():
     if GPIO.input(18) == False:
         print('Left button pressed')
-	offset -= 1
-        await asyncio.sleep(0.02)
+        offset = offset + 1
+        settime()
 
 while(True):
     asyncloop = asyncio.get_event_loop()
