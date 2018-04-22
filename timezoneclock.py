@@ -7,6 +7,9 @@ import os
 import time
 import RPi.GPIO as GPIO
 
+# Initializes Timezone Variables
+offset = 0
+
 # Creates displays
 7segdisplay = 7seg.SevenSegment(address=0x70)
 alphadisplay = alphanum.AlphaNum4(address=0x71)
@@ -19,7 +22,11 @@ alphadisplay.begin()
 while(True):
     # Sets Time
     utctime = datetime.utcnow()
-    hour = utctime.hour
-    minute = now.minute
+    hour = utctime.hour + offset
+    minute = utctime.minute
+    second = utctime.second
 
-    7segdisplay
+    # Clear Display
+    7segdisplay.clear()
+
+    7segdisplay.set_colon(second % 2)
