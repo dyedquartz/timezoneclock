@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/pythoon3
 
 from datetime import datetime
 from Adafruit_LED_Backpack import SevenSegment as sseg
@@ -40,7 +40,7 @@ async def settime():
     await asyncio.sleep(0.25)
 
 async def buttons():
-    async if GPIO.input(18) == False:
+    if GPIO.input(18) == False:
         print('Left button pressed')
         await asyncio.sleep(0.02)
 
