@@ -33,15 +33,25 @@ async def settime():
     minute = utctime.minute
     second = utctime.second
 
-    # Clear Display
+    # Clear Displays
     ssegdisplay.clear()
 
+    ## Sets Displays to current UTC + Offset
+    ssegdisplay.set_digit(0, int(hour / 10))
+    ssegdisplay.set_digit(1, hour % 10)
+    ssegdisplay.set_digit(2, int(minute / 10))
+    ssegdisplay.set_digit(3, minute % 10)
+
+    # Colon Blink
     ssegdisplay.set_colon(second % 2)
+    
+    # Waits a quarter second
     await asyncio.sleep(0.25)
 
 async def buttons():
     if GPIO.input(18) == False:
         print('Left button pressed')
+	offset -= 1
         await asyncio.sleep(0.02)
 
 asyncloop = asyncio.get_event_loop()
