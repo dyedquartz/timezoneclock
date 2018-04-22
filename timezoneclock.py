@@ -52,7 +52,8 @@ async def buttons():
         print('Left button pressed')
         await asyncio.sleep(0.1)
 
-asyncloop = asyncio.get_event_loop()
-tasks = [asyncloop.create_task(settime()), asyncloop.create_task(buttons())]
-#wait_tasks = asyncio.wait(tasks)
-asyncloop.run_forever()
+while(True):
+    asyncloop = asyncio.get_event_loop()
+    tasks = [asyncloop.create_task(settime()), asyncloop.create_task(buttons())]
+    wait_tasks = asyncio.wait(tasks)
+    asyncloop.run_until_complete(wait_tasks)
