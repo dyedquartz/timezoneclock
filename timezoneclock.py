@@ -38,7 +38,12 @@ async def time():
 
     7segdisplay.set_colon(second % 2)
     await asyncio.sleep(0.25)
+async def buttons():
+    async if GPIO.input(18) == False:
+        print('Left button pressed')
+        await asyncio.sleep(0.02)
 
-async if GPIO.input(18) == False:
-    print('Left button pressed')
-    await asyncio.sleep(0.02)
+asyncloop = asyncio.get_event_loop()
+tasks = [asyncloop.create_task(time()), asyncloop.create_task(buttons())]
+wait_tasks = asyncio.wait(tasks)
+asyncloop.run_forever()
