@@ -22,7 +22,7 @@ ssegdisplay = sseg.SevenSegment(address=0x70)
 alphadisplay = alphanum.AlphaNum4(address=0x71)
 
 # Begins display
-ss7segdisplay.begin()
+ssegdisplay.begin()
 alphadisplay.begin()
 
 # Loop for starting displays
