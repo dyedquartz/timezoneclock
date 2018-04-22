@@ -21,9 +21,14 @@ GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 ssegdisplay = sseg.SevenSegment(address=0x70)
 alphadisplay = alphanum.AlphaNum4(address=0x71)
 
-# Begins display
-ss7segdisplay.begin()
+# Begin and reset display
+ssegdisplay.begin()
+ssegdisplay.clear()
+ssegdisplay.write_display()
+
 alphadisplay.begin()
+alphadisplay.clear()
+alphadisplay.write_display()
 
 # Loop for starting displays
 async def settime():
@@ -54,7 +59,8 @@ async def buttons():
 	offset -= 1
         await asyncio.sleep(0.02)
 
-asyncloop = asyncio.get_event_loop()
-tasks = [asyncloop.create_task(settime()), asyncloop.create_task(buttons())]
-wait_tasks = asyncio.wait(tasks)
-asyncloop.run_forever()
+while(True):
+    asyncloop = asyncio.get_event_loop()
+    tasks = [asyncloop.create_task(settime()), asyncloop.create_task(buttons())]
+    wait_tasks = asyncio.wait(tasks)
+    asyncloop.run_until_complete(wait_tasks)
