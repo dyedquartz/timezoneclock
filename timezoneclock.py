@@ -60,11 +60,9 @@ async def settime():
 # Get Button State
 async def buttons():
     if GPIO.input(18) == False:
-        timezoneup()
-
-def timezoneup():
-    offset += 1
-    print(offset)
+        global offset
+        print(offset)
+        offset += 1
 
 # Async Loop
 while(True):
