@@ -1,4 +1,4 @@
-#!/usr/bin/pythoon3
+#!/usr/bin/python3
 
 from datetime import datetime
 from Adafruit_LED_Backpack import SevenSegment as sseg
