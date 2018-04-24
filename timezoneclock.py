@@ -28,6 +28,7 @@ ssegdisplay.write_display()
 
 alphadisplay.begin()
 alphadisplay.clear()
+alphadisplay.print_str('HELP')
 alphadisplay.write_display()
 
 # Loop for starting displays
@@ -56,12 +57,16 @@ async def settime():
     # Waits a quarter second
     await asyncio.sleep(0.25)
 
+# Get Button State
 async def buttons():
     if GPIO.input(18) == False:
-        print('Left button pressed')
-        offset = offset + 1
-        settime()
+        timezoneup()
 
+def timezoneup():
+    offset += 1
+    print(offset)
+
+# Async Loop
 while(True):
     asyncloop = asyncio.get_event_loop()
     tasks = [asyncloop.create_task(settime()), asyncloop.create_task(buttons())]
