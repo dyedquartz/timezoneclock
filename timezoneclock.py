@@ -29,7 +29,7 @@ ssegdisplay.write_display()
 
 alphadisplay.begin()
 alphadisplay.clear()
-alphadisplay.print_str('HELP')
+alphadisplay.print_str(timezones[offset][0])
 alphadisplay.write_display()
 
 # Loop for starting displays
@@ -64,7 +64,14 @@ async def buttons():
         global offset
         global timezones
         offset += 1
+        alphaset()
         print(timezones[offset][0], ": " + str(timezones[offset][1]))
+
+# Changes alphanumeric display to current timezone abbreviation
+def alphaset():
+    alphadisplay.clear()
+    alphadisplay.print_str(timezones[offset][0]
+    alphadisplay.write_display()
 
 # Async Loop
 while(True):
