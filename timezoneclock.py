@@ -44,8 +44,8 @@ async def settime():
     ssegdisplay.clear()
 
     ## Sets Displays to current UTC + Offset
-    ssegdisplay.set_digit(0, int((hour + timezones[offset][1]) / 10 / 24))
-    ssegdisplay.set_digit(1, (hour + timezones[offset][1]) % 10 % 24)
+    ssegdisplay.set_digit(0, int((hour + timezones[offset][1]) / 24 / 10))
+    ssegdisplay.set_digit(1, (hour + timezones[offset][1]) % 24 % 10)
     ssegdisplay.set_digit(2, int(minute / 10))
     ssegdisplay.set_digit(3, minute % 10)
 
@@ -62,8 +62,9 @@ async def settime():
 async def buttons():
     if GPIO.input(18) == False:
         global offset
-        print(offset)
+        global timezones
         offset += 1
+        print(timezones[offset][0], ": " + str(timezones[offset][1]))
 
 # Async Loop
 while(True):
