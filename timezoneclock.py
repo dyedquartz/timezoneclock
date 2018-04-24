@@ -10,6 +10,7 @@ import RPi.GPIO as GPIO
 
 # Init Timezone Variables
 offset = 0
+timezones = [['UTC', 0], ['HST', -10], ['HDT', -9], ['AKST', -9], ['AKDT', -8], ['PST', -8], ['PDT', -7], ['MST', -7], ['MDT', -6], ['CST', -6], ['CDT', -5], ['EST', -5], ['EDT', -4], ['AST', -4], ['ADT', -3]]
 
 # Init GPIO for buttons
 GPIO.setmode(GPIO.BCM)
@@ -43,8 +44,8 @@ async def settime():
     ssegdisplay.clear()
 
     ## Sets Displays to current UTC + Offset
-    ssegdisplay.set_digit(0, int((hour + offset) / 10))
-    ssegdisplay.set_digit(1, (hour + offset) % 10)
+    ssegdisplay.set_digit(0, int((hour + timezones[offset][1]) / 10 / 24))
+    ssegdisplay.set_digit(1, (hour + timezones[offset][1]) % 10 % 24)
     ssegdisplay.set_digit(2, int(minute / 10))
     ssegdisplay.set_digit(3, minute % 10)
 
