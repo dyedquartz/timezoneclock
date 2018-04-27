@@ -16,7 +16,7 @@ timezones = [['UTC', 0], ['HST', -10], ['HDT', -9], ['AKST', -9], ['AKDT', -8], 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # Creates displays
 ssegdisplay = sseg.SevenSegment(address=0x70)
@@ -32,6 +32,9 @@ alphadisplay.clear()
 alphadisplay.print_str(timezones[offset][0])
 alphadisplay.write_display()
 
+# Prints UTC time, for testing purposes
+#print(datetime.utcnow())
+
 # Loop for starting displays
 async def settime():
     # Sets Time
@@ -44,7 +47,7 @@ async def settime():
     ssegdisplay.clear()
 
     ## Sets Displays to current UTC + Offset
-    ssegdisplay.set_digit(0, int((hour + timezones[offset][1]) / 24 / 10))
+    ssegdisplay.set_digit(0, int((hour + timezones[offset][1]) % 24 / 10))
     ssegdisplay.set_digit(1, (hour + timezones[offset][1]) % 24 % 10)
     ssegdisplay.set_digit(2, int(minute / 10))
     ssegdisplay.set_digit(3, minute % 10)
@@ -60,17 +63,17 @@ async def settime():
 
 # Get Button State
 async def buttons():
+    global offset
     if GPIO.input(18) == False:
-        global offset
-        global timezones
         offset += 1
+        offset %= 15
         alphaset()
         print(timezones[offset][0], ": " + str(timezones[offset][1]))
 
 # Changes alphanumeric display to current timezone abbreviation
 def alphaset():
     alphadisplay.clear()
-    alphadisplay.print_str(timezones[offset][0]
+    alphadisplay.print_str(timezones[offset][0])
     alphadisplay.write_display()
 
 # Async Loop
